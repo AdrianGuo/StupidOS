@@ -74,10 +74,10 @@ void OS_vTaskInit (OS_tsTask * psTask, void (*pvEntry)(void *), void *pvParam, u
     *(--pu32Stack) = (unsigned long)0x4;                    // R4, 未用
 
     psTask->psStack = pu32Stack;                                // 保存最终的值
-    psTask->u32DelayTicks = 0;
     psTask->u32Prio = u32Prio;                                  // 设置任务的优先级
-	
+    psTask->u32DelayTicks = 0;
     psTask->u8State |=  STUPIDOS_TASK_STATE_RDY;
+
     OS_vNodeInit(&(psTask->sNodeDelay));
 
     psTaskTable[u32Prio] = psTask;                             // 填入任务优先级表
@@ -146,6 +146,17 @@ void OS_vTaskSchedEnable (void)
     OS_vTaskExitCritical(u32Status);
 }
 
+void OS_vTaskSchedRdy(OS_tsTask *psTask) 
+{
+    psTaskTable[psTask->u32Prio] = psTask;
+    OS_vBitmapSet(&sTaskPrioBitmap, psTask->u32Prio);
+}
+
+void OS_vTaskSchedUnRdy(OS_tsTask *psTask) 
+{
+    psTaskTable[psTask->u32Prio] = (OS_tsTask *)0;
+    OS_vBitmapClear(&sTaskPrioBitmap, psTask->u32Prio);
+}
 /**********************************************************************************************************
 ** Function name        :   OS_vTaskSched
 ** Descriptions         :   任务调度接口。tinyOS通过它来选择下一个具体的任务，然后切换至该任务运行。
@@ -179,33 +190,42 @@ void OS_vTaskSched(void)
 }
 
 /**********************************************************************************************************
-** Function name        :   OS_vTaskDelayInit
+** Function name        :   OS_vTimeTaskDelayInit
 ** Descriptions         :   初始化任务延时机制
 ** parameters           :   无
 ** Returned value       :   无
 ***********************************************************************************************************/
-void OS_vTaskDelayInit(void)
+void OS_vTimeTaskDelayInit(void)
 {
     OS_vListInit(&sTaskDelayList);
 }
 
 /**********************************************************************************************************
-** Function name        :   OS_vTaskDelayWait
+** Function name        :   OS_vTimeTaskDelayWait
 ** Descriptions         :   将任务加入延时队列中
 ** input parameters     :   task    需要延时的任务
 **                          ticks   延时的ticks
 ** output parameters    :   无
 ** Returned value       :   无
 ***********************************************************************************************************/
-//void OS_vTaskDelayWait()
+void OS_vTimeTaskDelayWait(OS_tsTask *psTask, uint32_t u32DelayTicksPra)
+{
+    psTask->u32DelayTicks = u32DelayTicksPra;
+    OS_vListAddLast(&sTaskDelayList, &(psTask->sNodeDelay));
+    psTask->u8State |= STUPIDOS_TASK_STATE_DELAYED; 
+}
 /**********************************************************************************************************
-** Function name        :   tTimeTaskWakeUp
+** Function name        :   OS_vTimeTaskWakeUp
 ** Descriptions         :   将延时的任务从延时队列中唤醒
 ** input parameters     :   task  需要唤醒的任务
 ** output parameters    :   无
 ** Returned value       :   无
 ***********************************************************************************************************/
-
+void OS_vTimeTaskWakeUp(OS_tsTask *psTask)
+{
+    OS_vListRemove(&sTaskDelayList, &(psTask->sNodeDelay));
+    psTask->u8State &= ~STUPIDOS_TASK_STATE_DELAYED;
+}
 
 /**********************************************************************************************************
 ** Function name        :   OS_vTaskSystemTickHandler
@@ -216,20 +236,23 @@ void OS_vTaskDelayInit(void)
 void OS_vTaskSystemTickHandler () 
 {
     // 检查所有任务的delayTicks数，如果不0的话，减1。
-    int i;   
+    tsNode *psNode;  
+
     uint32_t status = OS_u32TaskEnterCritical();
 
-    for (i = 0; i < STUPIDOS_PRO_COUNT; i++) 
+    for(psNode = sTaskDelayList.sHeadNode.psNextNode; psNode != &(sTaskDelayList.sHeadNode); psNode = psNode->psNextNode)
     {
-        if (psTaskTable[i]->u32DelayTicks > 0)
+        OS_tsTask * psTask = OS_tNodeParent(psNode, OS_tsTask, sNodeDelay);
+        if (--psTask->u32DelayTicks == 0) 
         {
-            psTaskTable[i]->u32DelayTicks--;
-        }
-        else 
-        {
-            OS_vBitmapSet(&sTaskPrioBitmap, i);
+            // 将任务从延时队列中移除
+            OS_vTimeTaskWakeUp(psTask);
+
+            // 将任务恢复到就绪状态
+            OS_vTaskSchedRdy(psTask);            
         }
     }
+
     OS_vTaskExitCritical(status);
 
     // 这个过程中可能有任务延时完毕(delayTicks = 0)，进行一次调度。
@@ -243,15 +266,18 @@ void OS_vTaskSystemTickHandler ()
 ** Returned value       :   无
 ***********************************************************************************************************/
 void OS_vTaskDelay (uint32_t u32Delay) {
-   // 配置好当前要延时的ticks数
+    // 进入临界区，以保护在整个任务调度与切换期间，不会因为发生中断导致currentTask和nextTask可能更改
     uint32_t u32Status = OS_u32TaskEnterCritical();
-    OS_psCurrentTask->u32DelayTicks = u32Delay;
-    OS_vBitmapClear(&sTaskPrioBitmap, OS_psCurrentTask->u32Prio);
-    OS_vTaskExitCritical(u32Status);
+    // 设置延时值，插入延时队列
+    OS_vTimeTaskDelayWait(OS_psCurrentTask, u32Delay);
+    // 将任务从就绪表中移除
+    OS_vTaskSchedUnRdy(OS_psCurrentTask);
 
     // 然后进行任务切换，切换至另一个任务，或者空闲任务
     // delayTikcs会在时钟中断中自动减1.当减至0时，会切换回来继续运行。
     OS_vTaskSched();
+
+    OS_vTaskExitCritical(u32Status);
 }
 
 /*********************************************************************************************************
@@ -290,22 +316,22 @@ tsNode sNode[8];
 
 void task1Entry (void * param) 
 {
-		int i = 0;
+	// int i = 0;
     OS_vSetSysTickPeriod(10);
 	
-	  // 简单的测试链表的头部插入与删除结点操作
-    // 其它接口的测试，请自行编写代码
-    OS_vListInit(&sList);
-    for (i = 0; i < 8; i++) 
-    {
-        OS_vNodeInit(&sNode[i]);
-        OS_vListAddFirst(&sList, &sNode[i]);
-    }
+	// // 简单的测试链表的头部插入与删除结点操作
+    // // 其它接口的测试，请自行编写代码
+    // OS_vListInit(&sList);
+    // for (i = 0; i < 8; i++) 
+    // {
+    //     OS_vNodeInit(&sNode[i]);
+    //     OS_vListAddFirst(&sList, &sNode[i]);
+    // }
 
-    for (i = 0; i < 8; i++) 
-    {
-        OS_psListRemoveFirst(&sList);
-    }
+    // for (i = 0; i < 8; i++) 
+    // {
+    //     OS_psListRemoveFirst(&sList);
+    // }
 		
     for (;;) 
     {
@@ -349,6 +375,8 @@ int main ()
 {
     // 优先初始化tinyOS的核心功能
     OS_vTaskSchedInit();
+    // 初始化延时队列
+    OS_vTimeTaskDelayInit();
 
     // 初始化任务1和任务2结构，传递运行的起始地址，想要给任意参数，以及运行堆栈空间
     OS_vTaskInit(&sTask1, task1Entry, (void *)0x11111111, 0, &task1Env[1024]);

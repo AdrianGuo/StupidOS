@@ -43,12 +43,14 @@ typedef struct OS_sTask {
     // 任务延时计数器
     uint32_t u32DelayTicks;
 	
-		tsNode	sNodeDelay;
+	tsNode	sNodeDelay;
 
     // 任务的优先级
     uint32_t u32Prio;
 	
-		uint8_t u8State;
+	uint8_t u8State;
+	
+	
 }OS_tsTask;
 
 // 当前任务：记录当前是哪个任务正在运行
