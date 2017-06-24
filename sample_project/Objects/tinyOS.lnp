@@ -1,8 +1,10 @@
 --cpu Cortex-M3
-".\objects\main.o"
 ".\objects\os_bitmap.o"
 ".\objects\os_list.o"
 ".\objects\os_switch.o"
+".\objects\stupidos.o"
+".\objects\app.o"
+".\objects\main.o"
 ".\objects\startup_armcm3.o"
 ".\objects\system_armcm3.o"
 --strict --scatter ".\Objects\tinyOS.sct"

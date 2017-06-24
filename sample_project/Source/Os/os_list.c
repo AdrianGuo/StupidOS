@@ -10,7 +10,7 @@
 ** parameters           :   psNode
 ** Returned value       :   无
 ***********************************************************************************************************/
-void OS_vNodeInit(tsNode *psNode)
+void OS_vNodeInit(OS_tsNode *psNode)
 {
 	psNode->psPreNode = psNode;
 	psNode->psNextNode = psNode;
@@ -22,7 +22,7 @@ void OS_vNodeInit(tsNode *psNode)
 ** parameters           :   psList
 ** Returned value       :   无
 ***********************************************************************************************************/
-void OS_vListInit(tsList *psList)
+void OS_vListInit(OS_tsList *psList)
 {
 	psList->FIRST_NODE = &(psList->sHeadNode);
 	psList->LAST_NODE = &(psList->sHeadNode);
@@ -30,12 +30,12 @@ void OS_vListInit(tsList *psList)
 }
 
 /**********************************************************************************************************
-** Function name        :   OS_u32GetListCount
+** Function name        :   OS_u32ListGetCount
 ** Descriptions         :   返回链表中结点的数量
 ** parameters           :   psList
 ** Returned value       :   结点数量
 ***********************************************************************************************************/
-uint32_t OS_u32GetListCount(tsList *psList)
+uint32_t OS_u32ListGetCount(OS_tsList *psList)
 {
 	return psList->u32NodeCount;
 }
@@ -46,9 +46,9 @@ uint32_t OS_u32GetListCount(tsList *psList)
 ** parameters           :   psList 查询的链表
 ** Returned value       :   首个结点，如果链表为空，则返回0
 ***********************************************************************************************************/
-tsNode * OS_psListGetFirstNode(tsList *psList)
+OS_tsNode * OS_psListGetFirstNode(OS_tsList *psList)
 {
-	tsNode *psNode = (tsNode * )0;
+	OS_tsNode *psNode = (OS_tsNode * )0;
 	
 	if(psList->u32NodeCount != 0)
 	{
@@ -64,9 +64,9 @@ tsNode * OS_psListGetFirstNode(tsList *psList)
 ** parameters           :   psList 查询的链表
 ** Returned value       :   最后的结点，如果链表为空，则返回0
 ***********************************************************************************************************/
-tsNode * OS_psListGetLastNode(tsList *psList)
+OS_tsNode * OS_psListGetLastNode(OS_tsList *psList)
 {
-	tsNode *psNode = (tsNode *)0;
+	OS_tsNode *psNode = (OS_tsNode *)0;
 	
 	if(psList->u32NodeCount != 0)
 	{
@@ -83,11 +83,11 @@ tsNode * OS_psListGetLastNode(tsList *psList)
 ** parameters           :   psNode 参考结点
 ** Returned value       :   前一结点结点，如果结点没有前结点（链表为空），则返回0
 ***********************************************************************************************************/
-tsNode * OS_psListGetNodePreNode(tsNode *psNode)
+OS_tsNode * OS_psListGetNodePreNode(OS_tsNode *psNode)
 {
 	if(psNode->psPreNode == psNode)
 	{
-		return (tsNode *)0;
+		return (OS_tsNode *)0;
 	}
 	else
 	{
@@ -102,11 +102,11 @@ tsNode * OS_psListGetNodePreNode(tsNode *psNode)
 ** parameters           :   psNode 参考结点
 ** Returned value       :   后一结点结点，如果结点没有前结点（链表为空），则返回0
 ***********************************************************************************************************/
-tsNode * OS_psListGetNodeNextNode(tsNode *psNode)
+OS_tsNode * OS_psListGetNodeNextNode(OS_tsNode *psNode)
 {
 	if(psNode->psNextNode == psNode)
 	{
-		return (tsNode *)0;
+		return (OS_tsNode *)0;
 	}
 	else
 	{
@@ -120,17 +120,17 @@ tsNode * OS_psListGetNodeNextNode(tsNode *psNode)
 ** parameters           :   psList 待清空的链表
 ** Returned value       :   无
 ***********************************************************************************************************/
-void OS_vListRemoveAll(tsList *psList)
+void OS_vListRemoveAll(OS_tsList *psList)
 {
 	uint32_t u32Count = 0;
 	
-	tsNode *psNextNode;
+	OS_tsNode *psNextNode;
 
 	psNextNode = psList->FIRST_NODE;
 	
 	for(u32Count = psList->u32NodeCount; u32Count > 0; u32Count--)
 	{
-		tsNode *psCurrentNode = psNextNode;
+		OS_tsNode *psCurrentNode = psNextNode;
 		
 		psNextNode = psCurrentNode -> psNextNode;
 		
@@ -151,7 +151,7 @@ void OS_vListRemoveAll(tsList *psList)
 ** parameters						:   psNode 待插入的结点
 ** Returned value       :   无
 ***********************************************************************************************************/
-void OS_vListAddFirst(tsList *psList, tsNode *psNode)
+void OS_vListAddFirst(OS_tsList *psList, OS_tsNode *psNode)
 {	
 	psNode->psPreNode = &(psList->sHeadNode);
 	psNode->psNextNode = psList->FIRST_NODE;
@@ -170,7 +170,7 @@ void OS_vListAddFirst(tsList *psList, tsNode *psNode)
 ** parameters						:   psNode 待插入的结点
 ** Returned value       :   无
 ***********************************************************************************************************/
-void OS_vListAddLast(tsList *psList, tsNode *psNode)
+void OS_vListAddLast(OS_tsList *psList, OS_tsNode *psNode)
 {
 	psNode->psPreNode = psList->LAST_NODE;
 	psNode->psNextNode = &(psList->sHeadNode);
@@ -189,9 +189,9 @@ void OS_vListAddLast(tsList *psList, tsNode *psNode)
 ** parameters           :   psList 待移除链表
 ** Returned value       :   如果链表为空，返回0，否则的话，返回第1个结点
 ***********************************************************************************************************/
-tsNode * OS_psListRemoveFirst(tsList *psList)
+OS_tsNode * OS_psListRemoveFirst(OS_tsList *psList)
 {
-	tsNode *psNode = (tsNode *)0;
+	OS_tsNode *psNode = (OS_tsNode *)0;
 	
 	if(psList->u32NodeCount != 0)
 	{
@@ -210,9 +210,9 @@ tsNode * OS_psListRemoveFirst(tsList *psList)
 ** parameters           :   psList 待移除链表
 ** Returned value       :   如果链表为空，返回0，否则的话，返回最后个结点
 ***********************************************************************************************************/
-tsNode * OS_psListRemoveLast(tsList *psList)
+OS_tsNode * OS_psListRemoveLast(OS_tsList *psList)
 {
-	tsNode *psNode = (tsNode *)0;
+	OS_tsNode *psNode = (OS_tsNode *)0;
 	
 	if(psList->u32NodeCount != 0)
 	{
@@ -233,7 +233,7 @@ tsNode * OS_psListRemoveLast(tsList *psList)
 ** parameters           :   psNodeToInsrt 	待插入的结构
 ** Returned value       :   无
 ***********************************************************************************************************/
-void OS_vListInsertAfter(tsList *psList, tsNode *psNodeRef, tsNode *psNodeToInsrt)
+void OS_vListInsertAfter(OS_tsList *psList, OS_tsNode *psNodeRef, OS_tsNode *psNodeToInsrt)
 {
 	psNodeToInsrt->psPreNode = psNodeRef;
 	psNodeToInsrt->psNextNode = psNodeRef->psNextNode;
@@ -252,7 +252,7 @@ void OS_vListInsertAfter(tsList *psList, tsNode *psNodeRef, tsNode *psNodeToInsr
 ** parameters           :   psNodeToInsrt 	待插入的结构
 ** Returned value       :   无
 ***********************************************************************************************************/
-void OS_vListInsertBefore(tsList *psList, tsNode *psNodeRef, tsNode *psNodeToInsrt)
+void OS_vListInsertBefore(OS_tsList *psList, OS_tsNode *psNodeRef, OS_tsNode *psNodeToInsrt)
 {
 	psNodeToInsrt->psPreNode = psNodeRef->psPreNode;
 	psNodeToInsrt->psNextNode = psNodeRef;
@@ -270,7 +270,7 @@ void OS_vListInsertBefore(tsList *psList, tsNode *psNodeRef, tsNode *psNodeToIns
 ** parameters           :   psNode 	待移除的结点
 ** Returned value       :   无
 ***********************************************************************************************************/
-void OS_vListRemove(tsList *psList, tsNode *psNode)
+void OS_vListRemove(OS_tsList *psList, OS_tsNode *psNode)
 {
 	psNode->psPreNode->psNextNode = psNode->psNextNode;
 	psNode->psNextNode->psPreNode = psNode->psPreNode;

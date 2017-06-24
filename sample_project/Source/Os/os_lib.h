@@ -69,20 +69,20 @@ uint32_t OS_u32BitmapGetFirstSet (OS_tsBitMap * psBitMap);
 
 
 // StupidOS链表的结点类型
-typedef struct tNode{
+typedef struct OS_Node{
 	// 该结点的前一个结点
-	struct tNode *psPreNode;
+	struct OS_Node *psPreNode;
 	// 该结点的后一个结点
-	struct tNode *psNextNode;
-}tsNode;
+	struct OS_Node *psNextNode;
+}OS_tsNode;
 
 // StupidOS链表类型
-typedef struct tList{
+typedef struct OS_List{
 	//该链表的头结点
-	tsNode sHeadNode;
+	OS_tsNode sHeadNode;
 	//该链表的节点数量
 	uint32_t u32NodeCount;
-}tsList;
+}OS_tsList;
 
 /**********************************************************************************************************
 ** Function name        :   OS_vNodeInit
@@ -90,43 +90,43 @@ typedef struct tList{
 ** parameters           :   无
 ** Returned value       :   无
 ***********************************************************************************************************/
-void OS_vNodeInit(tsNode *psNode);
+void OS_vNodeInit(OS_tsNode *psNode);
 
 /**********************************************************************************************************
-** Function name        :   OS_tNodeParent
+** Function name        :   OS_psNodeParent
 ** Descriptions         :   获取结点所在的父struct结构首地址
 ** parameters           :   无
 ** Returned value       :   父struct结构首地址
 ***********************************************************************************************************/
-#define OS_tNodeParent(node, parent, name) (parent *)((uint32_t)node - (uint32_t)&((parent *)0)->name)
+#define OS_psNodeParent(NodeAddr, ParentType, NodeName) (ParentType *)((uint32_t)NodeAddr - (uint32_t)&((ParentType *)0)->NodeName)
 
-void OS_vListInit(tsList *psList);
+void OS_vListInit(OS_tsList *psList);
 
-uint32_t OS_u32GetListCount(tsList *psList);
+uint32_t OS_u32ListGetCount(OS_tsList *psList);
 
-tsNode * OS_psListGetFirstNode(tsList *psList);
+OS_tsNode * OS_psListGetFirstNode(OS_tsList *psList);
 
-tsNode * OS_psListGetLastNode(tsList *psList);
+OS_tsNode * OS_psListGetLastNode(OS_tsList *psList);
 
-tsNode * OS_psListGetNodePreNode(tsNode *psNode);
+OS_tsNode * OS_psListGetNodePreNode(OS_tsNode *psNode);
 
-tsNode * OS_psListGetNodeNextNode(tsNode *psNode);
+OS_tsNode * OS_psListGetNodeNextNode(OS_tsNode *psNode);
 
-void OS_vListRemoveAll(tsList *psList);
+void OS_vListRemoveAll(OS_tsList *psList);
 
-void OS_vListAddFirst(tsList *psList, tsNode *psNode);
+void OS_vListAddFirst(OS_tsList *psList, OS_tsNode *psNode);
 
-void OS_vListAddLast(tsList *psList, tsNode *psNode);
+void OS_vListAddLast(OS_tsList *psList, OS_tsNode *psNode);
 
-tsNode * OS_psListRemoveFirst(tsList *psList);
+OS_tsNode * OS_psListRemoveFirst(OS_tsList *psList);
 
-tsNode * OS_psListRemoveLast(tsList *psList);
+OS_tsNode * OS_psListRemoveLast(OS_tsList *psList);
 
-void OS_vListInsertAfter(tsList *psList, tsNode *psNodeRef, tsNode *psNodeToInsrt);
+void OS_vListInsertAfter(OS_tsList *psList, OS_tsNode *psNodeRef, OS_tsNode *psNodeToInsrt);
 
-void OS_vListInsertBefore(tsList *psList, tsNode *psNodeRef, tsNode *psNodeToInsrt);
+void OS_vListInsertBefore(OS_tsList *psList, OS_tsNode *psNodeRef, OS_tsNode *psNodeToInsrt);
 
-void OS_vListRemove(tsList *psList, tsNode *psNode);
+void OS_vListRemove(OS_tsList *psList, OS_tsNode *psNode);
 
 
 

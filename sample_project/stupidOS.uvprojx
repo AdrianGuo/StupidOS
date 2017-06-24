@@ -373,7 +373,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>.\Source;.\Source\App;.\Source\Os</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -414,52 +414,77 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Source Group 1</GroupName>
+          <GroupName>Os</GroupName>
+          <Files>
+            <File>
+              <FileName>os_bitmap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\Os\os_bitmap.c</FilePath>
+            </File>
+            <File>
+              <FileName>os_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\Os\os_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>os_lib.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\Os\os_lib.h</FilePath>
+            </File>
+            <File>
+              <FileName>os_list.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\Os\os_list.c</FilePath>
+            </File>
+            <File>
+              <FileName>os_switch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\Os\os_switch.c</FilePath>
+            </File>
+            <File>
+              <FileName>stupidOS.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\Os\stupidOS.h</FilePath>
+            </File>
+            <File>
+              <FileName>stupidOS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\Os\stupidOS.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>App</GroupName>
+          <Files>
+            <File>
+              <FileName>app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\App\app.c</FilePath>
+            </File>
+            <File>
+              <FileName>app.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\App\app.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Main</GroupName>
           <Files>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\main.c</FilePath>
             </File>
-            <File>
-              <FileName>os_bitmap.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\os_bitmap.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_list.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\os_list.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_switch.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\os_switch.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\os_config.h</FilePath>
-            </File>
-            <File>
-              <FileName>stupidOS.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\stupidOS.h</FilePath>
-            </File>
-            <File>
-              <FileName>os_lib.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\os_lib.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>New Group</GroupName>
+          <GroupName>ReadMe</GroupName>
           <Files>
             <File>
-              <FileName>readme</FileName>
+              <FileName>readme.txt</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Source\readme</FilePath>
+              <FilePath>.\Source\readme.txt</FilePath>
             </File>
           </Files>
         </Group>

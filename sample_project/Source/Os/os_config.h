@@ -18,5 +18,6 @@
 #define OS_CONFIG_H
 
 #define	STUPIDOS_PRO_COUNT				32						// StupidOS任务的优先级序号
+#define STUPIDOS_SLICE_MAX				10						// 每个任务最大运行的时间片计数
 
 #endif /* OS_CONFIG_H */
