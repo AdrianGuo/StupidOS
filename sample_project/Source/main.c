@@ -43,7 +43,7 @@ int main ()
 	APP_vTaskInit();
 
     // 创建空闲任务
-    OS_vTaskInit(&sTaskIdle, idleTaskEntry, (void *)0, STUPIDOS_PRO_COUNT - 1, &idleTaskEnv[1024]);
+    OS_vTaskInit(&sTaskIdle, idleTaskEntry, (void *)0, STUPIDOS_PRO_COUNT - 1, &idleTaskEnv[STUPIDOS_IDLETASK_STACK_SIZE]);
     
     // 这里，不再指定先运行哪个任务，而是自动查找最高优先级的任务运行
     OS_psNextTask = OS_psTaskHighestReady();

@@ -451,6 +451,21 @@
               <FileType>1</FileType>
               <FilePath>.\Source\Os\stupidOS.c</FilePath>
             </File>
+            <File>
+              <FileName>os_cpu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\Os\os_cpu.c</FilePath>
+            </File>
+            <File>
+              <FileName>os_time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\Os\os_time.c</FilePath>
+            </File>
+            <File>
+              <FileName>os_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\Os\os_task.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

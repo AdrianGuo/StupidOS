@@ -23,53 +23,41 @@
 ** 有两个任务，分别执行task1Entry和task2Entry。功能是分别对相应的变量进行周期性置0置1.
 **********************************************************************************************************/
 
-//OS_tsList sList;
-//OS_tsNode sNode[8];
+
+// 任务1和任务2的任务结构，以及用于堆栈空间
+OS_tsTask sTask1;
+OS_tsTask sTask2;
+OS_tsTask sTask3;
+OS_tTaskStack task1Env[1024];
+OS_tTaskStack task2Env[1024];
+OS_tTaskStack task3Env[1024];
+
 
 int32_t s32Task1Flag;
 void task1Entry (void * param) 
 {
-	// int i = 0;
     OS_vSetSysTickPeriod(10);
-	
-	// // 简单的测试链表的头部插入与删除结点操作
-    // // 其它接口的测试，请自行编写代码
-    // OS_vListInit(&sList);
-    // for (i = 0; i < 8; i++) 
-    // {
-    //     OS_vNodeInit(&sNode[i]);
-    //     OS_vListAddFirst(&sList, &sNode[i]);
-    // }
 
-    // for (i = 0; i < 8; i++) 
-    // {
-    //     OS_psListRemoveFirst(&sList);
-    // }
-		
     for (;;) 
     {
         s32Task1Flag = 1;
-        OS_vTaskDelay(1);
+        OS_vTaskSuspend(OS_psCurrentTask);
         s32Task1Flag = 0;
-        OS_vTaskDelay(1);
+        OS_vTaskSuspend(OS_psCurrentTask);
     }
-}
-
-void delay ()
-{
-    int i;
-    for (i = 0; i < 0xFF; i++) {}
 }
 
 int32_t s32task2Flag;
 void task2Entry (void * param) 
 {
-    for (;;) 
+	for (;;) 
     {
         s32task2Flag = 1;
-        delay();
+        OS_vTaskDelay(1);
+		OS_vTaskWakeUp(&sTask1);
         s32task2Flag = 0;
-        delay();
+        OS_vTaskDelay(1);
+		OS_vTaskWakeUp(&sTask1);
     }
 }
 
@@ -79,19 +67,11 @@ void task3Entry (void * param)
     for (;;) 
     {
         s32task3Flag = 1;
-        delay();
+        OS_vTaskDelay(1);
         s32task3Flag = 0;
-        delay();
+        OS_vTaskDelay(1);
     }
 }
-
-// 任务1和任务2的任务结构，以及用于堆栈空间
-OS_tsTask sTask1;
-OS_tsTask sTask2;
-OS_tsTask sTask3;
-OS_tTaskStack task1Env[1024];
-OS_tTaskStack task2Env[1024];
-OS_tTaskStack task3Env[1024];
 
 
 

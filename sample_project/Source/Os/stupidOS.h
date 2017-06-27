@@ -28,6 +28,9 @@
 
 #define STUPIDOS_TASK_STATE_RDY                   0
 #define STUPIDOS_TASK_STATE_DELAYED               (1 << 1)
+#define STUPIDOS_TASK_STATE_SUSPEND               (1 << 2)
+
+
 
 // Cortex-M的堆栈单元类型：堆栈单元的大小为32位，所以使用uint32_t
 typedef uint32_t OS_tTaskStack;
@@ -45,8 +48,11 @@ typedef struct OS_sTask {
 	OS_tsNode	sNodeDelay;
     // 任务延时计数器
     uint32_t u32DelayTicks;
+	
 	OS_tsNode	sNodeLink;
 	uint32_t u32Slice;
+	
+	uint32_t u32SuspendCount;
 }OS_tsTask;
 
 // 当前任务：记录当前是哪个任务正在运行
@@ -74,5 +80,8 @@ void OS_vTimeTaskWakeUp(OS_tsTask *psTask);
 void OS_vTaskSystemTickHandler (void);
 void OS_vTaskDelay (uint32_t u32Delay);
 void OS_vSetSysTickPeriod(uint32_t ms);
+
+void OS_vTaskSuspend (OS_tsTask * psTask);
+void OS_vTaskWakeUp (OS_tsTask * psTask);
 
 #endif /* STUPIDOS_H */

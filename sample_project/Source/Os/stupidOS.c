@@ -38,56 +38,6 @@ uint8_t u8SchedLockCount;
 // 延时队列
 OS_tsList sTaskDelayList;
 
-/**********************************************************************************************************
-** Function name        :   OS_vTaskInit
-** Descriptions         :   初始化任务结构
-** parameters           :   task        要初始化的任务结构
-** parameters           :   entry       任务的入口函数
-** parameters           :   param       传递给任务的运行参数
-** Returned value       :   无
-***********************************************************************************************************/
-void OS_vTaskInit (OS_tsTask * psTask, void (*pvEntry)(void *), void *pvParam, uint32_t u32Prio, uint32_t * pu32Stack)
-{
-    // 为了简化代码，tinyOS无论是在启动时切换至第一个任务，还是在运行过程中在不同间任务切换
-    // 所执行的操作都是先保存当前任务的运行环境参数（CPU寄存器值）的堆栈中(如果已经运行运行起来的话)，然后再
-    // 取出从下一个任务的堆栈中取出之前的运行环境参数，然后恢复到CPU寄存器
-    // 对于切换至之前从没有运行过的任务，我们为它配置一个“虚假的”保存现场，然后使用该现场恢复。
-
-    // 注意以下两点：
-    // 1、不需要用到的寄存器，直接填了寄存器号，方便在IDE调试时查看效果；
-    // 2、顺序不能变，要结合PendSV_Handler以及CPU对异常的处理流程来理解
-    *(--pu32Stack) = (unsigned long)(1<<24);                // XPSR, 设置了Thumb模式，恢复到Thumb状态而非ARM状态运行
-    *(--pu32Stack) = (unsigned long)pvEntry;                // 程序的入口地址
-    *(--pu32Stack) = (unsigned long)0x14;                   // R14(LR), 任务不会通过return xxx结束自己，所以未用
-    *(--pu32Stack) = (unsigned long)0x12;                   // R12, 未用
-    *(--pu32Stack) = (unsigned long)0x3;                    // R3, 未用
-    *(--pu32Stack) = (unsigned long)0x2;                    // R2, 未用
-    *(--pu32Stack) = (unsigned long)0x1;                    // R1, 未用
-    *(--pu32Stack) = (unsigned long)pvParam;                // R0 = pvParam, 传给任务的入口函数
-    *(--pu32Stack) = (unsigned long)0x11;                   // R11, 未用
-    *(--pu32Stack) = (unsigned long)0x10;                   // R10, 未用
-    *(--pu32Stack) = (unsigned long)0x9;                    // R9, 未用
-    *(--pu32Stack) = (unsigned long)0x8;                    // R8, 未用
-    *(--pu32Stack) = (unsigned long)0x7;                    // R7, 未用
-    *(--pu32Stack) = (unsigned long)0x6;                    // R6, 未用
-    *(--pu32Stack) = (unsigned long)0x5;                    // R5, 未用
-    *(--pu32Stack) = (unsigned long)0x4;                    // R4, 未用
-
-    psTask->psStack = pu32Stack;                                // 保存最终的值
-
-    psTask->u32Prio = u32Prio;   								// 设置任务的优先级     
-    psTask->u32Slice = STUPIDOS_SLICE_MAX;
-                              
-	OS_vNodeInit(&(psTask->sNodeLink));
-	OS_vListAddLast(&(sTaskTableList[u32Prio]), &(psTask->sNodeLink));
-	
-	psTask->u32DelayTicks = 0;
-	OS_vNodeInit(&(psTask->sNodeDelay));
-
-    OS_vBitmapSet(&sTaskPrioBitmap, u32Prio);                  // 标记优先级位置中的相应位
-	
-    psTask->u8State |=  STUPIDOS_TASK_STATE_RDY;
-}
 
 /**********************************************************************************************************
 ** Function name        :   OS_psTaskHighestReady
@@ -205,6 +155,10 @@ void OS_vTaskSched(void)
     OS_vTaskExitCritical(status); 
 }
 
+
+
+
+
 /**********************************************************************************************************
 ** Function name        :   OS_vTimeTaskDelayInit
 ** Descriptions         :   初始化任务延时机制
@@ -286,50 +240,5 @@ void OS_vTaskSystemTickHandler ()
     OS_vTaskSched();
 }
 
-/**********************************************************************************************************
-** Function name        :   OS_vTaskDelay
-** Descriptions         :   使当前任务进入延时状态。
-** parameters           :   delay 延时多少个ticks
-** Returned value       :   无
-***********************************************************************************************************/
-void OS_vTaskDelay (uint32_t u32Delay) {
-    // 进入临界区，以保护在整个任务调度与切换期间，不会因为发生中断导致currentTask和nextTask可能更改
-    uint32_t u32Status = OS_u32TaskEnterCritical();
-    // 设置延时值，插入延时队列
-    OS_vTimeTaskDelayWait(OS_psCurrentTask, u32Delay);
-    // 将任务从就绪表中移除
-    OS_vTaskSchedUnRdy(OS_psCurrentTask);
 
-    // 然后进行任务切换，切换至另一个任务，或者空闲任务
-    // delayTikcs会在时钟中断中自动减1.当减至0时，会切换回来继续运行。
-    OS_vTaskSched();
-
-    OS_vTaskExitCritical(u32Status);
-}
-
-/*********************************************************************************************************
-** 系统时钟节拍定时器System Tick配置
-** 在我们目前的环境（模拟器）中，系统时钟节拍为12MHz
-** 请务必按照本教程推荐配置，否则systemTick的值就会有变化，需要查看数据手册才了解
-**********************************************************************************************************/
-void OS_vSetSysTickPeriod(uint32_t ms)
-{
-  SysTick->LOAD  = ms * SystemCoreClock / 1000 - 1; 
-  NVIC_SetPriority (SysTick_IRQn, (1<<__NVIC_PRIO_BITS) - 1);
-  SysTick->VAL   = 0;                           
-  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |
-                   SysTick_CTRL_TICKINT_Msk   |
-                   SysTick_CTRL_ENABLE_Msk; 
-}
-
-/**********************************************************************************************************
-** Function name        :   SysTick_Handler
-** Descriptions         :   SystemTick的中断处理函数。
-** parameters           :   无
-** Returned value       :   无
-***********************************************************************************************************/
-void SysTick_Handler () 
-{
-    OS_vTaskSystemTickHandler();
-}
 

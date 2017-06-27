@@ -2,7 +2,7 @@
 ** File name            :   os_list.c
 ** Latest modified Date :   2017-06-24
 ** Latest Version       :   
-** Descriptions         :   tinyOS所用的双向链表数据结构。
+** Descriptions         :   stupidOS所用的双向链表数据结构。
 **
 **--------------------------------------------------------------------------------------------------------
 ** Created by           :   Adrian
@@ -293,4 +293,26 @@ void OS_vListRemove(OS_tsList *psList, OS_tsNode *psNode)
 	
 	psList->u32NodeCount--;
 }
+
+//OS_tsList sList;
+//OS_tsNode sNode[8];
+
+void OS_vListTest(void)
+{
+	// int i = 0;
+	// // 简单的测试链表的头部插入与删除结点操作
+    // // 其它接口的测试，请自行编写代码
+    // OS_vListInit(&sList);
+    // for (i = 0; i < 8; i++) 
+    // {
+    //     OS_vNodeInit(&sNode[i]);
+    //     OS_vListAddFirst(&sList, &sNode[i]);
+    // }
+
+    // for (i = 0; i < 8; i++) 
+    // {
+    //     OS_psListRemoveFirst(&sList);
+    // }
+}
+
 
