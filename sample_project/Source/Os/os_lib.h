@@ -1,18 +1,18 @@
 /*************************************** Copyright (c)******************************************************
 ** File name            :   os_lib.h
-** Latest modified Date :   2016-06-01
-** Latest Version       :   0.1
-** Descriptions         :   tinyOS所用的通用数据结构库文件。
+** Latest modified Date :   2017-06-24
+** Latest Version       :   
+** Descriptions         :   stupidOS所用的通用数据结构库文件。
 **
 **--------------------------------------------------------------------------------------------------------
-** Created by           :   01课堂 lishutong
-** Created date         :   2016-06-01
-** Version              :   1.0
+** Created by           :   Adrian
+** Created date         :   2017-06-24
+** Version              :   0.1
 ** Descriptions         :   The original version
 **
 **--------------------------------------------------------------------------------------------------------
-** Copyright            :   版权所有，禁止用于商业用途
-** Author Blog          :   http://ilishutong.com
+** Copyright            :   
+** Author Blog          :   https://github.com/AdrianGuo
 **********************************************************************************************************/
 #ifndef OS_LIB_H
 #define OS_LIB_H

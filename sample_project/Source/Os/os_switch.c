@@ -1,18 +1,18 @@
 /*************************************** Copyright (c)******************************************************
-** File name            :   switch.c
-** Latest modified Date :   2016-06-01
-** Latest Version       :   0.1
-** Descriptions         :   tinyOS任务切换中与CPU相关的函数。
+** File name            :   os_switch.c
+** Latest modified Date :   2017-06-24
+** Latest Version       :   
+** Descriptions         :   stupidOS任务切换中与CPU相关的函数。
 **
 **--------------------------------------------------------------------------------------------------------
-** Created by           :   01课堂 lishutong
-** Created date         :   2016-06-01
-** Version              :   1.0
+** Created by           :   Adrian
+** Created date         :   2017-06-24
+** Version              :   0.1
 ** Descriptions         :   The original version
 **
 **--------------------------------------------------------------------------------------------------------
-** Copyright            :   版权所有，禁止用于商业用途
-** Author Blog          :   http://ilishutong.com
+** Copyright            :   
+** Author Blog          :   https://github.com/AdrianGuo
 **********************************************************************************************************/
 #include "stupidOS.h"
 #include "ARMCM3.h"

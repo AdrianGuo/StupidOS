@@ -1,18 +1,18 @@
 /*************************************** Copyright (c)******************************************************
 ** File name            :   app.c
-** Latest modified Date :   2016-06-01
-** Latest Version       :   0.1
-** Descriptions         :   主文件，包含应用代码
+** Latest modified Date :   2017-06-24
+** Latest Version       :   
+** Descriptions         :   应用主文件，包含应用代码
 **
 **--------------------------------------------------------------------------------------------------------
-** Created by           :   
-** Created date         :   
-** Version              :   
+** Created by           :   Adrian
+** Created date         :   2017-06-24
+** Version              :   0.1
 ** Descriptions         :   The original version
 **
 **--------------------------------------------------------------------------------------------------------
 ** Copyright            :   
-** Author Blog          :   
+** Author Blog          :   https://github.com/AdrianGuo
 **********************************************************************************************************/
 
 #include "stupidOS.h"
@@ -22,10 +22,11 @@
 ** 应用示例
 ** 有两个任务，分别执行task1Entry和task2Entry。功能是分别对相应的变量进行周期性置0置1.
 **********************************************************************************************************/
-int32_t s32Task1Flag;
-OS_tsList sList;
-OS_tsNode sNode[8];
 
+//OS_tsList sList;
+//OS_tsNode sNode[8];
+
+int32_t s32Task1Flag;
 void task1Entry (void * param) 
 {
 	// int i = 0;

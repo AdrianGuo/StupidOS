@@ -1,18 +1,18 @@
 /*************************************** Copyright (c)******************************************************
-** File name            :   tBitmap.c
-** Latest modified Date :   2016-06-01
-** Latest Version       :   0.1
+** File name            :   os_bitmap.c
+** Latest modified Date :   2017-06-24
+** Latest Version       :   
 ** Descriptions         :   tinyOS所用的位图数据结构。
 **
 **--------------------------------------------------------------------------------------------------------
-** Created by           :   01课堂 lishutong
-** Created date         :   2016-06-01
-** Version              :   1.0
+** Created by           :   Adrian
+** Created date         :   2017-06-24
+** Version              :   0.1
 ** Descriptions         :   The original version
 **
 **--------------------------------------------------------------------------------------------------------
-** Copyright            :   版权所有，禁止用于商业用途
-** Author Blog          :   http://ilishutong.com
+** Copyright            :   
+** Author Blog          :   https://github.com/AdrianGuo
 **********************************************************************************************************/
 #include "os_Lib.h"
 
