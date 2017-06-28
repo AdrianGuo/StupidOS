@@ -62,7 +62,11 @@ void OS_vTaskInit (OS_tsTask * psTask, void (*pvEntry)(void *), void *pvParam, u
 	OS_vNodeInit(&(psTask->sNodeDelay));
 	
 	psTask->u32SuspendCount = 0;
-	
+
+    psTask->OS_vClean = (void(*)(void *))0; 
+    psTask->pvCleanParam = (void *)0;   
+	psTask->u8RequestDeleteFlag = 0;
+
 	OS_vTaskSchedRdy(psTask);
 	
     psTask->u8State |=  STUPIDOS_TASK_STATE_RDY;
@@ -137,3 +141,120 @@ void OS_vTaskWakeUp (OS_tsTask * psTask)
     OS_vTaskExitCritical(u32Status);
 }
 
+/**********************************************************************************************************
+** Function name        :   OS_vTaskSetCleanCallFunc
+** Descriptions         :   设置任务被删除时调用的清理函数
+** parameters           :   task  待设置的任务
+** parameters           :   clean  清理函数入口地址
+** parameters           :   param  传递给清理函数的参数
+** Returned value       :   无
+***********************************************************************************************************/
+void OS_vTaskSetCleanCallFunc (OS_tsTask * psTask, void (*OS_vCleanParam)(void * pvParamParam), void * pvParamParam) 
+{
+    psTask->OS_vClean = OS_vCleanParam;
+    psTask->pvCleanParam = pvParamParam;
+}
+
+/**********************************************************************************************************
+** Function name        :   OS_vTaskForceDelete
+** Descriptions         :   强制删除指定的任务
+** parameters           :   task  需要删除的任务
+** Returned value       :   无
+***********************************************************************************************************/
+void OS_vTaskForceDelete (OS_tsTask * psTask) 
+{
+    // 进入临界区
+    uint32_t u32Status = OS_u32TaskEnterCritical();
+
+    if(psTask->u8State & STUPIDOS_TASK_STATE_DELAYED)
+    {
+        OS_vTimeTaskRemove(psTask);
+    }
+    else if(!(psTask->u8State & STUPIDOS_TASK_STATE_SUSPEND))
+    {
+        OS_vTaskSchedRemove(psTask);
+    }
+
+    if(psTask->OS_vClean)
+    {
+        psTask->OS_vClean(psTask->pvCleanParam);
+    }
+
+    if(OS_psCurrentTask == psTask)
+    {
+        OS_vTaskSched();
+    }
+    // 退出临界区
+    OS_vTaskExitCritical(u32Status);
+}
+
+/**********************************************************************************************************
+** Function name        :   OS_vTaskRequestDelete
+** Descriptions         :   标记任务需被删除
+** parameters           :   task  需要删除的任务
+** Returned value       :   无
+***********************************************************************************************************/
+void OS_vTaskRequestDelete (OS_tsTask * psTask) 
+{
+    uint32_t u32Status = OS_u32TaskEnterCritical();
+    psTask->u8RequestDeleteFlag = 1;
+    OS_vTaskExitCritical(u32Status);
+}
+
+/**********************************************************************************************************
+** Function name        :   OS_u8TaskIsRequestedDeleted
+** Descriptions         :   检查任务是否已删除
+** parameters           :   task  需要删除的任务
+** Returned value       :   无
+***********************************************************************************************************/
+uint8_t OS_u8TaskIsRequestedDeleted (void) 
+{
+    uint8_t u8State;
+
+    uint32_t u32Status = OS_u32TaskEnterCritical();
+    u8State = OS_psCurrentTask->u8RequestDeleteFlag;
+    OS_vTaskExitCritical(u32Status);
+
+    return u8State;
+}
+
+
+/**********************************************************************************************************
+** Function name        :   OS_vTaskDeleateItSelf
+** Descriptions         :   任务删除自身
+** parameters           :   task  需要删除的任务
+** Returned value       :   无
+***********************************************************************************************************/
+void OS_vTaskDeleteItSelf (void) 
+{
+    uint32_t u32Status = OS_u32TaskEnterCritical();
+    // 任务在调用该函数时，必须是处于就绪状态，不可能处于延时或挂起等其它状态
+    // 所以，只需要从就绪队列中移除即可
+    OS_vTaskSchedRemove(OS_psCurrentTask);
+    if(OS_psCurrentTask->OS_vClean)
+    {
+        OS_psCurrentTask->OS_vClean(OS_psCurrentTask->pvCleanParam);
+    }
+
+    // 接下来，肯定是切换到其它任务去运行
+    OS_vTaskSched();
+    
+    OS_vTaskExitCritical(u32Status);
+}
+
+/**********************************************************************************************************
+** Function name        :   OS_vTaskGetInfo
+** Descriptions         :   获取任务状态信息
+** parameters           :   task  需要删除的任务
+** Returned value       :   无
+***********************************************************************************************************/
+void OS_vTaskGetInfo(OS_tsTask *psTask, OS_tsTaskInfo *psTaskInfo)
+{
+    uint32_t u32Status = OS_u32TaskEnterCritical();
+    psTaskInfo->u8State = psTask->u8State;
+    psTaskInfo->u32Prio = psTask->u32Prio;
+    psTaskInfo->u32DelayTicks = psTask->u32DelayTicks;
+    psTaskInfo->u32SuspendCount = psTask->u32SuspendCount;
+    psTaskInfo->u32Slice = psTask->u32Slice;
+    OS_vTaskExitCritical(u32Status);
+}

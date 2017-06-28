@@ -27,6 +27,7 @@
 #include "os_config.h"
 
 #define STUPIDOS_TASK_STATE_RDY                   0
+#define STUPIDOS_TASK_STATE_DESTROYED             (1 << 0)
 #define STUPIDOS_TASK_STATE_DELAYED               (1 << 1)
 #define STUPIDOS_TASK_STATE_SUSPEND               (1 << 2)
 
@@ -53,7 +54,33 @@ typedef struct OS_sTask {
 	uint32_t u32Slice;
 	
 	uint32_t u32SuspendCount;
+	
+	// 任务被删除时调用的清理函数
+	void (* OS_vClean) (void *pvParam);
+	
+	// 传递给清理函数的参数
+	void *pvCleanParam;
+	
+    // 请求删除标志，非0表示请求删除
+    uint8_t u8RequestDeleteFlag;
 }OS_tsTask;
+
+typedef struct OS_tTaskInfo{
+    // 任务延时计数器
+    uint32_t u32DelayTicks;
+
+    // 任务的优先级
+    uint32_t u32Prio;
+
+    // 任务当前状态
+    uint32_t u8State;
+
+    // 当前剩余的时间片
+    uint32_t u32Slice;
+
+    // 被挂起的次数
+    uint32_t u32SuspendCount;
+}OS_tsTaskInfo;
 
 // 当前任务：记录当前是哪个任务正在运行
 extern OS_tsTask * OS_psCurrentTask;
@@ -83,5 +110,18 @@ void OS_vSetSysTickPeriod(uint32_t ms);
 
 void OS_vTaskSuspend (OS_tsTask * psTask);
 void OS_vTaskWakeUp (OS_tsTask * psTask);
+
+void OS_vTaskSchedRemove(OS_tsTask *psTask);
+void OS_vTimeTaskRemove(OS_tsTask *psTask);
+
+
+void OS_vTaskSetCleanCallFunc (OS_tsTask * psTask, void (*OS_vCleanParam)(void * pvParamParam), void * pvParamParam);
+void OS_vTaskForceDelete (OS_tsTask * psTask); 
+void OS_vTaskRequestDelete (OS_tsTask * psTask); 
+uint8_t OS_u8TaskIsRequestedDeleted (void); 
+void OS_vTaskDeleteItSelf (void); 
+
+void OS_vTaskGetInfo(OS_tsTask *psTask, OS_tsTaskInfo *psTaskInfo);
+
 
 #endif /* STUPIDOS_H */

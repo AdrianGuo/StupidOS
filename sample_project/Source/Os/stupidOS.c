@@ -52,6 +52,14 @@ OS_tsTask * OS_psTaskHighestReady (void)
     return OS_psNodeParent(psNode, OS_tsTask, sNodeLink);
 }
 
+
+
+
+
+
+
+
+
 /**********************************************************************************************************
 ** Function name        :   初始化调度器
 ** Descriptions         :   无
@@ -123,6 +131,16 @@ void OS_vTaskSchedUnRdy(OS_tsTask *psTask)
         OS_vBitmapClear(&sTaskPrioBitmap, psTask->u32Prio);
     }
 }
+
+void OS_vTaskSchedRemove(OS_tsTask *psTask) 
+{
+    OS_vListRemove(&(sTaskTableList[psTask->u32Prio]), &(psTask->sNodeLink));
+    if(OS_u32ListGetCount(&(sTaskTableList[psTask->u32Prio])) == 0)
+    {
+        OS_vBitmapClear(&sTaskPrioBitmap, psTask->u32Prio);
+    }
+}
+
 /**********************************************************************************************************
 ** Function name        :   OS_vTaskSched
 ** Descriptions         :   任务调度接口。tinyOS通过它来选择下一个具体的任务，然后切换至该任务运行。
@@ -154,6 +172,9 @@ void OS_vTaskSched(void)
     // 退出临界区
     OS_vTaskExitCritical(status); 
 }
+
+
+
 
 
 
@@ -196,6 +217,28 @@ void OS_vTimeTaskWakeUp(OS_tsTask *psTask)
     OS_vListRemove(&sTaskDelayList, &(psTask->sNodeDelay));
     psTask->u8State &= ~STUPIDOS_TASK_STATE_DELAYED;
 }
+
+/**********************************************************************************************************
+** Function name        :   OS_vTimeTaskWakeUp
+** Descriptions         :   将延时的任务从延时队列中移除
+** input parameters     :   task  需要唤醒的任务
+** output parameters    :   无
+** Returned value       :   无
+***********************************************************************************************************/
+void OS_vTimeTaskRemove(OS_tsTask *psTask)
+{
+    OS_vListRemove(&sTaskDelayList, &(psTask->sNodeDelay));
+    psTask->u8State &= ~STUPIDOS_TASK_STATE_DELAYED;
+}
+
+
+
+
+
+
+
+
+
 
 /**********************************************************************************************************
 ** Function name        :   OS_vTaskSystemTickHandler
