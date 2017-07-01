@@ -34,28 +34,21 @@ OS_tTaskStack task2Env[1024];
 OS_tTaskStack task3Env[1024];
 OS_tTaskStack task4Env[1024];
 
+OS_tsEventControl sEventWaitNormal;
+OS_tsEventControl sEventWaitTimeOut;
 
 
 int32_t s32Task1Flag;
-
-void task1DestroyFunc (void * param) 
-{
-    s32Task1Flag = 0;
-}
-
 void task1Entry (void * param) 
 {
-	OS_tsTaskInfo sTaskInfo;
-	
     OS_vSetSysTickPeriod(10);
+	OS_vEventInit(&sEventWaitTimeOut, E_OS_EVENT_TYPE_UNKNOWN);
 	
-    OS_vTaskSetCleanCallFunc(&sTask1, task1DestroyFunc, (uint8_t *)0);
-
     for (;;) 
     {
-		OS_vTaskGetInfo(OS_psCurrentTask, &sTaskInfo);
-		
-		OS_vTaskGetInfo(&sTask2, &sTaskInfo);
+        OS_vEventWait(&sEventWaitTimeOut, OS_psCurrentTask, (void *)0, 0, 5);
+        OS_vTaskSched();
+        
         s32Task1Flag = 1;
         OS_vTaskDelay(1);
         s32Task1Flag = 0;
@@ -66,37 +59,27 @@ void task1Entry (void * param)
 int32_t s32task2Flag;
 void task2Entry (void * param) 
 {
-    int task1Deleted = 0;
-
 	for (;;) 
     {
+        OS_vEventWait(&sEventWaitNormal, OS_psCurrentTask, (void *)0, 0, 0);
+        OS_vTaskSched();
+
         s32task2Flag = 1;
         OS_vTaskDelay(1);
         s32task2Flag = 0;
         OS_vTaskDelay(1);
-
-        if(!task1Deleted)
-        {
-            OS_vTaskForceDelete(&sTask1);
-            task1Deleted = 1;
-        }
     }
 }
 
 int32_t s32task3Flag;
 void task3Entry (void * param) 
 {
+	OS_vEventInit(&sEventWaitNormal, E_OS_EVENT_TYPE_UNKNOWN);
+	
     for (;;) 
     {
-        // 检查是否要求删除任务自己
-        if (OS_u8TaskIsRequestedDeleted())
-        {
-            // 做一些清理工作
-            s32task3Flag = 0;
-
-            // 然后主动删除自己
-            OS_vTaskDeleteItSelf();
-        }
+        OS_vEventWait(&sEventWaitNormal, OS_psCurrentTask, (void *)0, 0, 0);
+        OS_vTaskSched();
 
         s32task3Flag = 1;
         OS_vTaskDelay(1);
@@ -110,19 +93,15 @@ void task3Entry (void * param)
 int32_t s32task4Flag;
 void task4Entry (void * param) 
 {
-    int task3Deleted = 0;
     for (;;) 
     {
+        OS_psEventWakeUp(&sEventWaitNormal, (void *)0, 0);
+        OS_vTaskSched();
+        
         s32task4Flag = 1;
         OS_vTaskDelay(1);
         s32task4Flag = 0;
         OS_vTaskDelay(1);
-
-        if(!task3Deleted)
-        {
-            OS_vTaskRequestDelete(&sTask3);
-            task3Deleted = 1;
-        }
     }
 }
 
@@ -133,7 +112,7 @@ void APP_vTaskInit()
     // 初始化任务1和任务2结构，传递运行的起始地址，想要给任意参数，以及运行堆栈空间
     OS_vTaskInit(&sTask1, task1Entry, (void *)0x11111111, 0, &task1Env[1024]);
     OS_vTaskInit(&sTask2, task2Entry, (void *)0x22222222, 1, &task2Env[1024]);
-    OS_vTaskInit(&sTask3, task3Entry, (void *)0x33333333, 1, &task3Env[1024]);
+    OS_vTaskInit(&sTask3, task3Entry, (void *)0x33333333, 0, &task3Env[1024]);
     OS_vTaskInit(&sTask4, task4Entry, (void *)0x44444444, 1, &task4Env[1024]);
 }
 

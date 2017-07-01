@@ -466,6 +466,21 @@
               <FileType>1</FileType>
               <FilePath>.\Source\Os\os_task.c</FilePath>
             </File>
+            <File>
+              <FileName>os_event.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\Os\os_event.c</FilePath>
+            </File>
+            <File>
+              <FileName>os_event.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\Os\os_event.h</FilePath>
+            </File>
+            <File>
+              <FileName>os_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\Os\os_task.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

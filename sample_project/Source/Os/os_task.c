@@ -69,7 +69,7 @@ void OS_vTaskInit (OS_tsTask * psTask, void (*pvEntry)(void *), void *pvParam, u
 
 	OS_vTaskSchedRdy(psTask);
 	
-    psTask->u8State |=  STUPIDOS_TASK_STATE_RDY;
+    psTask->u32State |=  STUPIDOS_TASK_STATE_RDY;
 }
 
 
@@ -84,14 +84,14 @@ void OS_vTaskSuspend (OS_tsTask * psTask)
     uint32_t u32Status = OS_u32TaskEnterCritical();
 
     // 不允许对已经进入延时状态的任务挂起
-    if (!(psTask->u8State & STUPIDOS_TASK_STATE_DELAYED)) 
+    if (!(psTask->u32State & STUPIDOS_TASK_STATE_DELAYED)) 
     {
         // 增加挂起计数，仅当该任务被执行第一次挂起操作时，才考虑是否
         // 要执行任务切换操作
         if (++psTask->u32SuspendCount <= 1)
         {
             // 设置挂起标志
-            psTask->u8State |= STUPIDOS_TASK_STATE_SUSPEND;
+            psTask->u32State |= STUPIDOS_TASK_STATE_SUSPEND;
 
             // 挂起方式很简单，就是将其从就绪队列中移除，这样调度器就不会发现他
             // 也就没法切换到该任务运行
@@ -121,13 +121,13 @@ void OS_vTaskWakeUp (OS_tsTask * psTask)
     uint32_t u32Status = OS_u32TaskEnterCritical();
 
      // 检查任务是否处于挂起状态
-    if (psTask->u8State & STUPIDOS_TASK_STATE_SUSPEND)
+    if (psTask->u32State & STUPIDOS_TASK_STATE_SUSPEND)
     {
         // 递减挂起计数，如果为0了，则清除挂起标志，同时设置进入就绪状态
         if (--psTask->u32SuspendCount == 0) 
         {
             // 清除挂起标志
-            psTask->u8State &= ~STUPIDOS_TASK_STATE_SUSPEND;
+            psTask->u32State &= ~STUPIDOS_TASK_STATE_SUSPEND;
 
             // 同时将任务放回就绪队列中
             OS_vTaskSchedRdy(psTask);
@@ -166,11 +166,11 @@ void OS_vTaskForceDelete (OS_tsTask * psTask)
     // 进入临界区
     uint32_t u32Status = OS_u32TaskEnterCritical();
 
-    if(psTask->u8State & STUPIDOS_TASK_STATE_DELAYED)
+    if(psTask->u32State & STUPIDOS_TASK_STATE_DELAYED)
     {
         OS_vTimeTaskRemove(psTask);
     }
-    else if(!(psTask->u8State & STUPIDOS_TASK_STATE_SUSPEND))
+    else if(!(psTask->u32State & STUPIDOS_TASK_STATE_SUSPEND))
     {
         OS_vTaskSchedRemove(psTask);
     }
@@ -251,7 +251,7 @@ void OS_vTaskDeleteItSelf (void)
 void OS_vTaskGetInfo(OS_tsTask *psTask, OS_tsTaskInfo *psTaskInfo)
 {
     uint32_t u32Status = OS_u32TaskEnterCritical();
-    psTaskInfo->u8State = psTask->u8State;
+    psTaskInfo->u32State = psTask->u32State;
     psTaskInfo->u32Prio = psTask->u32Prio;
     psTaskInfo->u32DelayTicks = psTask->u32DelayTicks;
     psTaskInfo->u32SuspendCount = psTask->u32SuspendCount;

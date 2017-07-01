@@ -203,7 +203,7 @@ void OS_vTimeTaskDelayWait(OS_tsTask *psTask, uint32_t u32DelayTicksPra)
 {
     psTask->u32DelayTicks = u32DelayTicksPra;
     OS_vListAddLast(&sTaskDelayList, &(psTask->sNodeDelay));
-    psTask->u8State |= STUPIDOS_TASK_STATE_DELAYED; 
+    psTask->u32State |= STUPIDOS_TASK_STATE_DELAYED; 
 }
 /**********************************************************************************************************
 ** Function name        :   OS_vTimeTaskWakeUp
@@ -215,7 +215,7 @@ void OS_vTimeTaskDelayWait(OS_tsTask *psTask, uint32_t u32DelayTicksPra)
 void OS_vTimeTaskWakeUp(OS_tsTask *psTask)
 {
     OS_vListRemove(&sTaskDelayList, &(psTask->sNodeDelay));
-    psTask->u8State &= ~STUPIDOS_TASK_STATE_DELAYED;
+    psTask->u32State &= ~STUPIDOS_TASK_STATE_DELAYED;
 }
 
 /**********************************************************************************************************
@@ -228,7 +228,7 @@ void OS_vTimeTaskWakeUp(OS_tsTask *psTask)
 void OS_vTimeTaskRemove(OS_tsTask *psTask)
 {
     OS_vListRemove(&sTaskDelayList, &(psTask->sNodeDelay));
-    psTask->u8State &= ~STUPIDOS_TASK_STATE_DELAYED;
+    psTask->u32State &= ~STUPIDOS_TASK_STATE_DELAYED;
 }
 
 
@@ -258,6 +258,13 @@ void OS_vTaskSystemTickHandler ()
         OS_tsTask * psTask = OS_psNodeParent(psNode, OS_tsTask, sNodeDelay);
         if (--psTask->u32DelayTicks == 0) 
         {
+            // 如果任务还处于等待事件的状态，则将其从事件等待队列中唤醒
+            if (psTask->psWaitEvent) 
+            {
+                // 此时，消息为空，等待结果为超时
+                OS_vEventRemoveTask(psTask, (void *)0, E_OS_ERROR_NO_ERROR);
+            }
+
             // 将任务从延时队列中移除
             OS_vTimeTaskWakeUp(psTask);
 
