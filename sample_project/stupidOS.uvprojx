@@ -481,6 +481,16 @@
               <FileType>5</FileType>
               <FilePath>.\Source\Os\os_task.h</FilePath>
             </File>
+            <File>
+              <FileName>os_sem.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\Os\os_sem.c</FilePath>
+            </File>
+            <File>
+              <FileName>os_sem.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Source\Os\os_sem.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

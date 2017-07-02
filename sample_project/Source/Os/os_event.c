@@ -115,3 +115,62 @@ void OS_vEventRemoveTask (OS_tsTask * psTask, void * pvMsg, uint32_t u32Result)
     //为什么不调度来着？？此函数由OS_vTaskSystemTickHandler直接调用，之前已做延时检查，之后会做调度
     OS_vTaskExitCritical(u32Status);
 }
+
+
+/**********************************************************************************************************
+** Function name        :   OS_u32EventRemoveAll
+** Descriptions         :   清除所有等待中的任务，将事件发送给所有任务
+** parameters           :   psEvent 事件控制块
+** parameters           :   pvMsg 事件消息
+** parameters           :   u32Result 告知事件的等待结果
+** Returned value       :   唤醒的任务数量
+***********************************************************************************************************/
+uint32_t OS_u32EventRemoveAll (OS_tsEventControl * psEvent, void * pvMsg, uint32_t u32Result)
+{
+    uint32_t u32Count;
+    OS_tsNode *psNode;
+    
+    uint32_t u32Status = OS_u32TaskEnterCritical();
+
+    u32Count = OS_u32ListGetCount(&psEvent->sWaitList);
+
+    while((psNode = OS_psListRemoveFirst(&psEvent->sWaitList)) != (OS_tsNode *)0)
+    {
+        OS_tsTask *psTask = OS_psNodeParent(psNode, OS_tsTask, sNodeLink);
+        psTask->psWaitEvent = (OS_tsEventControl *)0;
+        psTask->pvEventMsg = pvMsg;
+        psTask->u32WaitEventResult = u32Result;
+        psTask->u32State &= ~STUPIDOS_TASK_WAIT_MASK;
+
+        // 任务申请了超时等待，这里检查下，将其从延时队列中移除
+        if(psTask->u32DelayTicks != 0)
+        {
+            OS_vTimeTaskWakeUp(psTask);
+        }
+
+        // 将任务加入就绪队列
+        OS_vTaskSchedRdy(psTask);    
+    }
+    OS_vTaskExitCritical(u32Status);
+
+    return u32Count;
+}
+
+/**********************************************************************************************************
+** Function name        :   OS_u32EventWaitCount
+** Descriptions         :   事件控制块中等待的任务数量
+** parameters           :   psEvent 事件控制块
+** Returned value       :   唤醒的任务数量
+***********************************************************************************************************/
+uint32_t OS_u32EventWaitCount (OS_tsEventControl * psEvent)
+{
+    uint32_t u32Count;
+
+    uint32_t u32Status = OS_u32TaskEnterCritical();
+
+    u32Count = OS_u32ListGetCount(&psEvent->sWaitList);
+
+    OS_vTaskExitCritical(u32Status);
+
+    return u32Count;
+}

@@ -19,9 +19,11 @@
 
 #include "os_config.h"
 #include "os_lib.h"
+#include "os_task.h"
 
 typedef enum OS_eEventType{
     E_OS_EVENT_TYPE_UNKNOWN = 0, 				// 未知类型
+    E_OS_EVENT_TYPE_SEM = 0, 				    // 信号量类型
 }OS_teEventType;
 
 // Event控制结构
@@ -70,5 +72,25 @@ OS_tsTask * OS_psEventWakeUp (OS_tsEventControl * psEvent, void * pvMsg, uint32_
 ** Returned value       :   无
 ***********************************************************************************************************/
 void OS_vEventRemoveTask (OS_tsTask * psTask, void * pvMsg, uint32_t u32Result);
+
+/**********************************************************************************************************
+** Function name        :   OS_u32EventRemoveAll
+** Descriptions         :   清除所有等待中的任务，将事件发送给所有任务
+** parameters           :   psEvent 事件控制块
+** parameters           :   pvMsg 事件消息
+** parameters           :   u32Result 告知事件的等待结果
+** Returned value       :   唤醒的任务数量
+***********************************************************************************************************/
+uint32_t OS_u32EventRemoveAll (OS_tsEventControl * psEvent, void * pvMsg, uint32_t u32Result);
+
+
+/**********************************************************************************************************
+** Function name        :   OS_u32EventWaitCount
+** Descriptions         :   事件控制块中等待的任务数量
+** parameters           :   psEvent 事件控制块
+** Returned value       :   唤醒的任务数量
+***********************************************************************************************************/
+uint32_t OS_u32EventWaitCount (OS_tsEventControl * psEvent);
+
 
 #endif

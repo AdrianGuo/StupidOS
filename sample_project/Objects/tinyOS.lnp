@@ -7,6 +7,7 @@
 ".\objects\os_time.o"
 ".\objects\os_task.o"
 ".\objects\os_event.o"
+".\objects\os_sem.o"
 ".\objects\app.o"
 ".\objects\main.o"
 ".\objects\startup_armcm3.o"

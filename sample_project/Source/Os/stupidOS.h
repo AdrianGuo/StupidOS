@@ -32,6 +32,9 @@
 // 事件控制头文件
 #include "os_event.h"
 
+// 信号量头文件
+#include "os_sem.h"
+
 typedef enum OS_eError{
 	E_OS_ERROR_NO_ERROR,
 }OS_teError;

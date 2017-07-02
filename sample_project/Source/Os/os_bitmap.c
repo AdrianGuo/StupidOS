@@ -2,7 +2,7 @@
 ** File name            :   os_bitmap.c
 ** Latest modified Date :   2017-06-24
 ** Latest Version       :   
-** Descriptions         :   tinyOS所用的位图数据结构。
+** Descriptions         :   stupidOS所用的位图数据结构。
 **
 **--------------------------------------------------------------------------------------------------------
 ** Created by           :   Adrian
