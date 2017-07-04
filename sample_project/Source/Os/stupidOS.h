@@ -36,7 +36,10 @@
 #include "os_sem.h"
 
 typedef enum OS_eError{
-	E_OS_ERROR_NO_ERROR,
+	E_OS_ERROR_NO_ERROR,					// 没有错误
+	E_OS_ERROR_TIME_OUT,					// 等待超时
+	E_OS_ERROR_RESOURCE_UNAVALIABLE,		// 资源不可用
+	E_OS_ERROR_DEL,							// 被删除
 }OS_teError;
 
 

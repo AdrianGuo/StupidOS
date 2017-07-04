@@ -262,7 +262,7 @@ void OS_vTaskSystemTickHandler ()
             if (psTask->psWaitEvent) 
             {
                 // 此时，消息为空，等待结果为超时
-                OS_vEventRemoveTask(psTask, (void *)0, E_OS_ERROR_NO_ERROR);
+                OS_vEventRemoveTask(psTask, (void *)0, E_OS_ERROR_TIME_OUT);
             }
 
             // 将任务从延时队列中移除

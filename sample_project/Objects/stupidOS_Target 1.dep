@@ -2,34 +2,31 @@ Dependencies for Project 'stupidOS', Target 'Target 1': (DO NOT MODIFY !)
 F (.\Source\Os\os_bitmap.c)(0x595913CB)(-c --cpu Cortex-M3 --li -g -O0 --apcs=interwork --split_sections -I.\Source -I.\Source\App -I.\Source\Os-I E:\Git\GitHub\StupidOS\sample_project\RTE-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="517" -D_RTE_ -DARMCM3-o .\objects\os_bitmap.o --omf_browse .\objects\os_bitmap.crf --depend .\objects\os_bitmap.d)
 I (Source\Os\os_Lib.h)(0x594E4EAF)
 I (d:\Program Files (x86)\ARM\ADSv1_2\INCLUDE\stdint.h)(0x3BEB19E6)
-F (.\Source\Os\os_config.h)(0x595277D0)()
-F (.\Source\Os\os_lib.h)(0x594E4EAF)()
 F (.\Source\Os\os_list.c)(0x59527AF3)(-c --cpu Cortex-M3 --li -g -O0 --apcs=interwork --split_sections -I.\Source -I.\Source\App -I.\Source\Os-I E:\Git\GitHub\StupidOS\sample_project\RTE-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="517" -D_RTE_ -DARMCM3-o .\objects\os_list.o --omf_browse .\objects\os_list.crf --depend .\objects\os_list.d)
 I (Source\Os\os_lib.h)(0x594E4EAF)
 I (d:\Program Files (x86)\ARM\ADSv1_2\INCLUDE\stdint.h)(0x3BEB19E6)
 F (.\Source\Os\os_switch.c)(0x594E4E6F)(-c --cpu Cortex-M3 --li -g -O0 --apcs=interwork --split_sections -I.\Source -I.\Source\App -I.\Source\Os-I E:\Git\GitHub\StupidOS\sample_project\RTE-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="517" -D_RTE_ -DARMCM3-o .\objects\os_switch.o --omf_browse .\objects\os_switch.crf --depend .\objects\os_switch.d)
-I (Source\Os\stupidOS.h)(0x595917DA)
+I (Source\Os\stupidOS.h)(0x595939A9)
 I (d:\Program Files (x86)\ARM\ADSv1_2\INCLUDE\stdint.h)(0x3BEB19E6)
 I (Source\Os\os_lib.h)(0x594E4EAF)
 I (Source\Os\os_config.h)(0x595277D0)
 I (Source\Os\os_task.h)(0x5957A463)
 I (Source\Os\os_event.h)(0x59591546)
-I (Source\Os\os_sem.h)(0x59591498)
+I (Source\Os\os_sem.h)(0x59593237)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\ARMCM3.h)(0x562075B4)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm3.h)(0x5625B70C)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\system_ARMCM3.h)(0x55D41F08)
-F (.\Source\Os\stupidOS.h)(0x595917DA)()
-F (.\Source\Os\stupidOS.c)(0x5957AA7D)(-c --cpu Cortex-M3 --li -g -O0 --apcs=interwork --split_sections -I.\Source -I.\Source\App -I.\Source\Os-I E:\Git\GitHub\StupidOS\sample_project\RTE-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="517" -D_RTE_ -DARMCM3-o .\objects\stupidos.o --omf_browse .\objects\stupidos.crf --depend .\objects\stupidos.d)
-I (Source\Os\stupidOS.h)(0x595917DA)
+F (.\Source\Os\stupidOS.c)(0x59593831)(-c --cpu Cortex-M3 --li -g -O0 --apcs=interwork --split_sections -I.\Source -I.\Source\App -I.\Source\Os-I E:\Git\GitHub\StupidOS\sample_project\RTE-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="517" -D_RTE_ -DARMCM3-o .\objects\stupidos.o --omf_browse .\objects\stupidos.crf --depend .\objects\stupidos.d)
+I (Source\Os\stupidOS.h)(0x595939A9)
 I (d:\Program Files (x86)\ARM\ADSv1_2\INCLUDE\stdint.h)(0x3BEB19E6)
 I (Source\Os\os_lib.h)(0x594E4EAF)
 I (Source\Os\os_config.h)(0x595277D0)
 I (Source\Os\os_task.h)(0x5957A463)
 I (Source\Os\os_event.h)(0x59591546)
-I (Source\Os\os_sem.h)(0x59591498)
+I (Source\Os\os_sem.h)(0x59593237)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\ARMCM3.h)(0x562075B4)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm3.h)(0x5625B70C)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
@@ -37,13 +34,13 @@ I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\system_ARMCM3.h)(0x55D41F08)
 F (.\Source\Os\os_cpu.c)(0x59527600)(-c --cpu Cortex-M3 --li -g -O0 --apcs=interwork --split_sections -I.\Source -I.\Source\App -I.\Source\Os-I E:\Git\GitHub\StupidOS\sample_project\RTE-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="517" -D_RTE_ -DARMCM3-o .\objects\os_cpu.o --omf_browse .\objects\os_cpu.crf --depend .\objects\os_cpu.d)
-I (Source\Os\stupidOS.h)(0x595917DA)
+I (Source\Os\stupidOS.h)(0x595939A9)
 I (d:\Program Files (x86)\ARM\ADSv1_2\INCLUDE\stdint.h)(0x3BEB19E6)
 I (Source\Os\os_lib.h)(0x594E4EAF)
 I (Source\Os\os_config.h)(0x595277D0)
 I (Source\Os\os_task.h)(0x5957A463)
 I (Source\Os\os_event.h)(0x59591546)
-I (Source\Os\os_sem.h)(0x59591498)
+I (Source\Os\os_sem.h)(0x59593237)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\ARMCM3.h)(0x562075B4)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm3.h)(0x5625B70C)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
@@ -51,47 +48,45 @@ I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\system_ARMCM3.h)(0x55D41F08)
 F (.\Source\Os\os_time.c)(0x5957AB80)(-c --cpu Cortex-M3 --li -g -O0 --apcs=interwork --split_sections -I.\Source -I.\Source\App -I.\Source\Os-I E:\Git\GitHub\StupidOS\sample_project\RTE-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="517" -D_RTE_ -DARMCM3-o .\objects\os_time.o --omf_browse .\objects\os_time.crf --depend .\objects\os_time.d)
-I (Source\Os\stupidOS.h)(0x595917DA)
+I (Source\Os\stupidOS.h)(0x595939A9)
 I (d:\Program Files (x86)\ARM\ADSv1_2\INCLUDE\stdint.h)(0x3BEB19E6)
 I (Source\Os\os_lib.h)(0x594E4EAF)
 I (Source\Os\os_config.h)(0x595277D0)
 I (Source\Os\os_task.h)(0x5957A463)
 I (Source\Os\os_event.h)(0x59591546)
-I (Source\Os\os_sem.h)(0x59591498)
+I (Source\Os\os_sem.h)(0x59593237)
 F (.\Source\Os\os_task.c)(0x5957A46E)(-c --cpu Cortex-M3 --li -g -O0 --apcs=interwork --split_sections -I.\Source -I.\Source\App -I.\Source\Os-I E:\Git\GitHub\StupidOS\sample_project\RTE-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="517" -D_RTE_ -DARMCM3-o .\objects\os_task.o --omf_browse .\objects\os_task.crf --depend .\objects\os_task.d)
-I (Source\Os\stupidOS.h)(0x595917DA)
+I (Source\Os\stupidOS.h)(0x595939A9)
 I (d:\Program Files (x86)\ARM\ADSv1_2\INCLUDE\stdint.h)(0x3BEB19E6)
 I (Source\Os\os_lib.h)(0x594E4EAF)
 I (Source\Os\os_config.h)(0x595277D0)
 I (Source\Os\os_task.h)(0x5957A463)
 I (Source\Os\os_event.h)(0x59591546)
-I (Source\Os\os_sem.h)(0x59591498)
+I (Source\Os\os_sem.h)(0x59593237)
 F (.\Source\Os\os_event.c)(0x5957C98C)(-c --cpu Cortex-M3 --li -g -O0 --apcs=interwork --split_sections -I.\Source -I.\Source\App -I.\Source\Os-I E:\Git\GitHub\StupidOS\sample_project\RTE-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="517" -D_RTE_ -DARMCM3-o .\objects\os_event.o --omf_browse .\objects\os_event.crf --depend .\objects\os_event.d)
-I (Source\Os\stupidOS.h)(0x595917DA)
+I (Source\Os\stupidOS.h)(0x595939A9)
 I (d:\Program Files (x86)\ARM\ADSv1_2\INCLUDE\stdint.h)(0x3BEB19E6)
 I (Source\Os\os_lib.h)(0x594E4EAF)
 I (Source\Os\os_config.h)(0x595277D0)
 I (Source\Os\os_task.h)(0x5957A463)
 I (Source\Os\os_event.h)(0x59591546)
-I (Source\Os\os_sem.h)(0x59591498)
-F (.\Source\Os\os_event.h)(0x59591546)()
-F (.\Source\Os\os_task.h)(0x5957A463)()
-F (.\Source\Os\os_sem.c)(0x595916F5)(-c --cpu Cortex-M3 --li -g -O0 --apcs=interwork --split_sections -I.\Source -I.\Source\App -I.\Source\Os-I E:\Git\GitHub\StupidOS\sample_project\RTE-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="517" -D_RTE_ -DARMCM3-o .\objects\os_sem.o --omf_browse .\objects\os_sem.crf --depend .\objects\os_sem.d)
-I (Source\Os\os_sem.h)(0x59591498)
-I (Source\Os\os_config.h)(0x595277D0)
-I (Source\Os\os_event.h)(0x59591546)
-I (Source\Os\os_lib.h)(0x594E4EAF)
+I (Source\Os\os_sem.h)(0x59593237)
+F (.\Source\Os\os_sem.c)(0x59593251)(-c --cpu Cortex-M3 --li -g -O0 --apcs=interwork --split_sections -I.\Source -I.\Source\App -I.\Source\Os-I E:\Git\GitHub\StupidOS\sample_project\RTE-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="517" -D_RTE_ -DARMCM3-o .\objects\os_sem.o --omf_browse .\objects\os_sem.crf --depend .\objects\os_sem.d)
+I (Source\Os\stupidOS.h)(0x595939A9)
 I (d:\Program Files (x86)\ARM\ADSv1_2\INCLUDE\stdint.h)(0x3BEB19E6)
+I (Source\Os\os_lib.h)(0x594E4EAF)
+I (Source\Os\os_config.h)(0x595277D0)
 I (Source\Os\os_task.h)(0x5957A463)
-F (.\Source\Os\os_sem.h)(0x59591498)()
-F (.\Source\App\app.c)(0x595917AC)(-c --cpu Cortex-M3 --li -g -O0 --apcs=interwork --split_sections -I.\Source -I.\Source\App -I.\Source\Os-I E:\Git\GitHub\StupidOS\sample_project\RTE-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="517" -D_RTE_ -DARMCM3-o .\objects\app.o --omf_browse .\objects\app.crf --depend .\objects\app.d)
-I (.\Source\Os\stupidOS.h)(0x595917DA)
+I (Source\Os\os_event.h)(0x59591546)
+I (Source\Os\os_sem.h)(0x59593237)
+F (.\Source\App\app.c)(0x595933EF)(-c --cpu Cortex-M3 --li -g -O0 --apcs=interwork --split_sections -I.\Source -I.\Source\App -I.\Source\Os-I E:\Git\GitHub\StupidOS\sample_project\RTE-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="517" -D_RTE_ -DARMCM3-o .\objects\app.o --omf_browse .\objects\app.crf --depend .\objects\app.d)
+I (.\Source\Os\stupidOS.h)(0x595939A9)
 I (d:\Program Files (x86)\ARM\ADSv1_2\INCLUDE\stdint.h)(0x3BEB19E6)
 I (.\Source\Os\os_lib.h)(0x594E4EAF)
 I (.\Source\Os\os_config.h)(0x595277D0)
 I (.\Source\Os\os_task.h)(0x5957A463)
 I (.\Source\Os\os_event.h)(0x59591546)
-I (.\Source\Os\os_sem.h)(0x59591498)
+I (.\Source\Os\os_sem.h)(0x59593237)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\ARMCM3.h)(0x562075B4)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm3.h)(0x5625B70C)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
@@ -100,13 +95,13 @@ I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\system_ARMCM3.h)(0x55D41F08)
 F (.\Source\App\app.h)(0x594E4F0B)()
 F (.\Source\main.c)(0x595276A0)(-c --cpu Cortex-M3 --li -g -O0 --apcs=interwork --split_sections -I.\Source -I.\Source\App -I.\Source\Os-I E:\Git\GitHub\StupidOS\sample_project\RTE-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include-D__UVISION_VERSION="517" -D_RTE_ -DARMCM3-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
-I (.\Source\Os\stupidOS.h)(0x595917DA)
+I (.\Source\Os\stupidOS.h)(0x595939A9)
 I (d:\Program Files (x86)\ARM\ADSv1_2\INCLUDE\stdint.h)(0x3BEB19E6)
 I (.\Source\Os\os_lib.h)(0x594E4EAF)
 I (.\Source\Os\os_config.h)(0x595277D0)
 I (.\Source\Os\os_task.h)(0x5957A463)
 I (.\Source\Os\os_event.h)(0x59591546)
-I (.\Source\Os\os_sem.h)(0x59591498)
+I (.\Source\Os\os_sem.h)(0x59593237)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\Device\ARM\ARMCM3\Include\ARMCM3.h)(0x562075B4)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm3.h)(0x5625B70C)
 I (D:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)

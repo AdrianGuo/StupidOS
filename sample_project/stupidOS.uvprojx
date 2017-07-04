@@ -422,16 +422,6 @@
               <FilePath>.\Source\Os\os_bitmap.c</FilePath>
             </File>
             <File>
-              <FileName>os_config.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\Os\os_config.h</FilePath>
-            </File>
-            <File>
-              <FileName>os_lib.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\Os\os_lib.h</FilePath>
-            </File>
-            <File>
               <FileName>os_list.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\Os\os_list.c</FilePath>
@@ -440,11 +430,6 @@
               <FileName>os_switch.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\Os\os_switch.c</FilePath>
-            </File>
-            <File>
-              <FileName>stupidOS.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\Os\stupidOS.h</FilePath>
             </File>
             <File>
               <FileName>stupidOS.c</FileName>
@@ -472,24 +457,9 @@
               <FilePath>.\Source\Os\os_event.c</FilePath>
             </File>
             <File>
-              <FileName>os_event.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\Os\os_event.h</FilePath>
-            </File>
-            <File>
-              <FileName>os_task.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\Os\os_task.h</FilePath>
-            </File>
-            <File>
               <FileName>os_sem.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Source\Os\os_sem.c</FilePath>
-            </File>
-            <File>
-              <FileName>os_sem.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Source\Os\os_sem.h</FilePath>
             </File>
           </Files>
         </Group>

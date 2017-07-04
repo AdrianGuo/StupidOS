@@ -34,17 +34,24 @@ OS_tTaskStack task2Env[1024];
 OS_tTaskStack task3Env[1024];
 OS_tTaskStack task4Env[1024];
 
-OS_tsEventControl sEventWaitSem;
-OS_tsSem sSem;
+OS_tsSem sSem1;
+OS_tsSem sSem2;
 
 int32_t s32Task1Flag;
 void task1Entry (void * param) 
 {
     OS_vSetSysTickPeriod(10);
-    OS_vSemInit(&sSem, 4, 3);
+	
+    // 最大10个信号量计数，初始化值为0
+    OS_vSemInit(&sSem1, 0, 10);
 	
     for (;;) 
     {
+        if(OS_psCurrentTask->u32WaitEventResult != E_OS_ERROR_DEL)
+        {
+            OS_u32SemWait(&sSem1, 10);
+        }
+
         s32Task1Flag = 1;
         OS_vTaskDelay(1);
         s32Task1Flag = 0;
@@ -55,12 +62,19 @@ void task1Entry (void * param)
 int32_t s32task2Flag;
 void task2Entry (void * param) 
 {
+    uint32_t u32Sem1Deled = 0;
 	for (;;) 
-    {
+    {  
         s32task2Flag = 1;
         OS_vTaskDelay(1);
         s32task2Flag = 0;
         OS_vTaskDelay(1);
+
+        if(!u32Sem1Deled)
+        {
+            OS_u32SemDestroy(&sSem1);
+            u32Sem1Deled = 1;
+        }
     }
 }
 
@@ -82,7 +96,7 @@ int32_t s32task4Flag;
 void task4Entry (void * param) 
 {
     for (;;) 
-    { 
+    { 	
         s32task4Flag = 1;
         OS_vTaskDelay(1);
         s32task4Flag = 0;
