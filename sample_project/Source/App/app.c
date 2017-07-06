@@ -34,23 +34,44 @@ OS_tTaskStack task2Env[1024];
 OS_tTaskStack task3Env[1024];
 OS_tTaskStack task4Env[1024];
 
-OS_tsSem sSem1;
-OS_tsSem sSem2;
+OS_tsMbox sMbox1;
+void *pvMbox1MsgBuffer[20];
+
+OS_tsMbox sMbox2;
+void *pvMbox2MsgBuffer[20];
+
+uint32_t msg[20];
 
 int32_t s32Task1Flag;
 void task1Entry (void * param) 
 {
     OS_vSetSysTickPeriod(10);
-	
-    // 最大10个信号量计数，初始化值为0
-    OS_vSemInit(&sSem1, 0, 10);
+
+    OS_vMboxInit(&sMbox1, pvMbox1MsgBuffer, 20);
+	OS_vMboxInit(&sMbox2, pvMbox2MsgBuffer, 20);
 	
     for (;;) 
     {
-        if(OS_psCurrentTask->u32WaitEventResult != E_OS_ERROR_DEL)
+		// 依次加入邮箱中
+        uint32_t i = 0;
+        for (i = 0; i < 20; i++) 
         {
-            OS_u32SemWait(&sSem1, 10);
+            msg[i] = i;
+            OS_u32MboxNotify(&sMbox1, &msg[i], OS_MBOX_SEND_NORMAL);
         }
+        OS_vTaskDelay(100);
+
+        // 后发的消息具有更高优先级
+        // 也许你会期望task2~task3得到的消息值会从19/18/...1递减
+        // 但是如果队列中已经存在等待任务的话，每发一次消息，都会消耗掉该消息
+        // 导致最开始的顺序会有所变化
+        for (i = 0; i < 20; i++) 
+        {
+            msg[i] = i;
+            OS_u32MboxNotify(&sMbox1, &msg[i], OS_MBOX_SEND_FRONT);
+        }   
+        OS_vTaskDelay(100);
+
 
         s32Task1Flag = 1;
         OS_vTaskDelay(1);
@@ -62,27 +83,33 @@ void task1Entry (void * param)
 int32_t s32task2Flag;
 void task2Entry (void * param) 
 {
-    uint32_t u32Sem1Deled = 0;
 	for (;;) 
     {  
-        s32task2Flag = 1;
-        OS_vTaskDelay(1);
-        s32task2Flag = 0;
-        OS_vTaskDelay(1);
-
-        if(!u32Sem1Deled)
+        void * msg;
+        uint32_t err = OS_u32MboxWait(&sMbox1, &msg, 10);
+        if (err == E_OS_ERROR_NO_ERROR) 
         {
-            OS_u32SemDestroy(&sSem1);
-            u32Sem1Deled = 1;
+            uint32_t value = *(uint32_t*)msg;
+            s32task2Flag = value;
+            OS_vTaskDelay(1);
         }
+
+        // s32task2Flag = 1;
+        // OS_vTaskDelay(1);
+        // s32task2Flag = 0;
+        // OS_vTaskDelay(1);
     }
 }
 
 int32_t s32task3Flag;
 void task3Entry (void * param) 
 {
+    
     for (;;) 
     {
+		void * msg;
+        OS_u32MboxWait(&sMbox2, &msg, 100);
+		
         s32task3Flag = 1;
         OS_vTaskDelay(1);
         s32task3Flag = 0;

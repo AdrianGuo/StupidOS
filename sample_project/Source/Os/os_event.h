@@ -24,6 +24,7 @@
 typedef enum OS_eEventType{
     E_OS_EVENT_TYPE_UNKNOWN = 0, 				// 未知类型
     E_OS_EVENT_TYPE_SEM = 0, 				    // 信号量类型
+    E_OS_EVENT_TYPE_MBOX = 0, 				    // 邮箱类型
 }OS_teEventType;
 
 // Event控制结构

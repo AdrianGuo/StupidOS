@@ -35,11 +35,15 @@
 // 信号量头文件
 #include "os_sem.h"
 
+// 邮箱头文件
+#include "os_mbox.h"
+
 typedef enum OS_eError{
 	E_OS_ERROR_NO_ERROR,					// 没有错误
 	E_OS_ERROR_TIME_OUT,					// 等待超时
 	E_OS_ERROR_RESOURCE_UNAVALIABLE,		// 资源不可用
 	E_OS_ERROR_DEL,							// 被删除
+	E_OS_ERROR_RESOURCE_FULL,				// 资源已满
 }OS_teError;
 
 

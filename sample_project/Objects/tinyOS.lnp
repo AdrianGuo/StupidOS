@@ -8,6 +8,7 @@
 ".\objects\os_task.o"
 ".\objects\os_event.o"
 ".\objects\os_sem.o"
+".\objects\os_mbox.o"
 ".\objects\app.o"
 ".\objects\main.o"
 ".\objects\startup_armcm3.o"
